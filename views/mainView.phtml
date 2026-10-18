@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda online</title>
+</head>
+<body>
+
+    <h1>BIENVENIDOS A ESTA TIENDA</h1>
+
+    <p>
+        <a href="index.php?c=cart&show">Ver carrito</a>
+    </p>
+<?php if (isset($_SESSION['user'])): ?>
+
+    <p>
+        Hola,
+        <?= htmlspecialchars($_SESSION['user']->getUsername()) ?>
+
+        | <a href="index.php?c=order&history">Mis pedidos</a>
+
+        | <a href="index.php?c=product&new">Subir producto</a>
+
+        | <a href="index.php?c=user&logout">Salir</a>
+    </p>
+
+<?php else: ?>
+
+    <a href="index.php?login">Entrar</a>
+    <a href="index.php?register">Regístrate</a>
+
+<?php endif; ?>
+    
+
+   
+    <h2>Catálogo de productos</h2>
+
+    <?php foreach ($products as $product): ?>
+
+        <div>
+            <strong>
+                <?= htmlspecialchars($product->getName()) ?>
+            </strong>
+
+            - <?= number_format($product->getPrice(), 2) ?> €
+
+            <a href="index.php?c=product&detail=<?= $product->getId() ?>">
+                Ver detalle
+            </a>
+
+            <a href="index.php?c=cart&add=<?= $product->getId() ?>">
+                Añadir al carrito
+            </a>
+        </div>
+
+    <?php endforeach; ?>
+
+</body>
+</html>

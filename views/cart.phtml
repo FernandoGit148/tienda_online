@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi carrito</title>
+</head>
+<body>
+
+<h1>Mi carrito</h1>
+
+<a href="index.php">Volver a la tienda</a>
+
+<?php if (empty($cartProducts)): ?>
+
+    <p>El carrito está vacío.</p>
+
+<?php else: ?>
+
+    <?php $total = 0; ?>
+
+    <?php foreach ($cartProducts as $item): ?>
+
+        <?php
+        $product = $item['product'];
+        $quantity = $item['quantity'];
+        $subtotal = $product->getPrice() * $quantity;
+        $total += $subtotal;
+        ?>
+
+        <hr>
+
+        <h2><?= htmlspecialchars($product->getName()) ?></h2>
+
+        <p>
+            Precio unitario:
+            <?= number_format($product->getPrice(), 2) ?> €
+        </p>
+
+        <p>
+            Subtotal:
+            <?= number_format($subtotal, 2) ?> €
+        </p>
+
+        <form action="index.php?c=cart" method="POST">
+            <input
+                type="hidden"
+                name="product_id"
+                value="<?= $product->getId() ?>"
+            >
+
+            <label for="quantity-<?= $product->getId() ?>">
+                Cantidad:
+            </label>
+
+            <input
+                type="number"
+                id="quantity-<?= $product->getId() ?>"
+                name="quantity"
+                value="<?= $quantity ?>"
+                min="0"
+                max="<?= $product->getStock() ?>"
+                required
+            >
+
+            <button type="submit" name="update" value="1">
+                Actualizar cantidad
+            </button>
+        </form>
+
+        <p>
+            <a href="index.php?c=cart&remove=<?= $product->getId() ?>">
+                Eliminar del carrito
+            </a>
+        </p>
+
+    <?php endforeach; ?>
+
+    <hr>
+
+    <h2>Total: <?= number_format($total, 2) ?> €</h2>
+    <a href="index.php?c=order&checkout">Continuar con el pedido</a>
+
+<?php endif; ?>
+
+</body>
+</html>

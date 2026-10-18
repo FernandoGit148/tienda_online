@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis pedidos</title>
+</head>
+<body>
+
+    <h1>Mis pedidos</h1>
+
+    <p>
+        <a href="index.php">Volver a la tienda</a>
+    </p>
+
+    <?php if (empty($orders)): ?>
+
+        <p>Todavía no has realizado ningún pedido.</p>
+
+    <?php else: ?>
+
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Número de pedido</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($orders as $order): ?>
+                    <tr>
+                        <td>
+                            <?= (int) $order->getId() ?>
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($order->getDate()) ?>
+                        </td>
+
+                        <td>
+                            <?= number_format(
+                                (float) $order->getTotal(),
+                                2,
+                                ',',
+                                '.'
+                            ) ?> €
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($order->getStatus()) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+    <?php endif; ?>
+
+</body>
+</html>

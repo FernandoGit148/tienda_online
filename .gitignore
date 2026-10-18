@@ -1,0 +1,13 @@
+# Credenciales y configuración privada
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Configuración personal del editor
+.vscode/
+
+# Archivos temporales y logs
+*.log
